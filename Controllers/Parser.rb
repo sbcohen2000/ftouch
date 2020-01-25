@@ -53,27 +53,35 @@ class Parser
 
     #RDP functions below
 
-    def class_list()
+    def class_list(parameter_name)
         loop do
             accept(:WHITESPACE)
             class_name = peek().content
             expect(:IDENT)
 
-            puts "class name: #{class_name}"
+            class_arguments = Array.new
+            
             #accept possible input argument
             if peek().type == :OPEN_PAREN then
                 accept(:WHITESPACE)
-                constant
+                class_arguments << constant
                 accept(:WHITESPACE)
                 expect(:CLOSE_PAREN)
             end
 
             accept(:WHITESPACE)
+
+            @symbol_table.apply_class(parameter_name, 
+                                      class_name, 
+                                      class_arguments)
+
             break if !accept(:COMMA)
         end
     end
 
     def constant()
+        #accept whitespace after assignment
+        accept(:WHITESPACE)
         value = peek().content
         if peek().type == :NUMBER then
             accept(:NUMBER)
@@ -85,24 +93,29 @@ class Parser
 
     def expression()
         parameter_name = peek().content
+        expression_should_output = true
         expect(:IDENT)
-        puts @symbol_table.get_value(parameter_name)
         accept(:WHITESPACE)
         #if a "<" does not follow the identifer, then some whitespace
         #and a class list, or an assignment statement must follow 
         if peek().type != :R_ANGLE then
             if accept(:GETS) then
-                constant
+                @symbol_table.set(parameter_name, constant())
+                #assignment statements do not produce output
+                expression_should_output = false
             else
-                class_list
+                class_list(parameter_name)
             end
+        end
+        #output the value of the parameter after all classes have been applied
+        if expression_should_output then
+            print @symbol_table.get(parameter_name).value 
         end
         expect(:R_ANGLE)
     end
 
     def body()
         until next_is_eof do
-            #puts peek().type
             if peek().type == :TEXT then
                 output_text 
             elsif accept(:L_ANGLE) then

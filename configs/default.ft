@@ -1,2 +1,3 @@
 //comment
-<filename>
+<param1 = "hello, world">
+<param1 capitalize>

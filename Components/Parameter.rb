@@ -21,4 +21,17 @@ class Parameter
         end
         return @value
     end
+    
+    #as opposed to value(), raw_value does not execute the lambda at @value
+    #if it exists.
+    def raw_value()
+        return @value
+    end
+
+    def apply_class(func, arguments)
+        if func.respond_to? :call then
+            return @value = func.call(self, arguments)
+        end
+        return @value
+    end
 end
