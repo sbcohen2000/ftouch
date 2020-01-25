@@ -1,26 +1,15 @@
-//comment
 <param>
-<param class,class,class> //param with classes
-<param class(arg)>        //class with argument
-<param =value>            //assignment
+<param class,class,class> param with classes
+<param class(arg)>        class with argument
+<param =value>            assignment
 
-// classes:
-// align
-// with align, you can align text to the param
-//             and each line
-//             that follows
-//             will align to it
-//
-// limit(width)
-// with limit, the parameter will wrap after width columns
-
-// default params:
-// date     -> MM/DD/YYYY
-// day      -> DD
-// month    -> MM
-// year     -> YYYY
-// time     -> hh:mm
-// hour     -> hh
-// min      -> mm
-// sec      -> ss
-// filename -> name of file
+default params:
+    date     -> MM/DD/YYYY
+    day      -> DD
+    month    -> MM
+    year     -> YYYY
+    time     -> hh:mm
+    hour     -> hh
+    min      -> mm
+    sec      -> ss
+    filename -> name of file
