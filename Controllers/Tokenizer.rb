@@ -6,18 +6,18 @@
 # This file defines the Tokenizer class
 
 require_relative '../Components/Token'
+require_relative '../Components/FileRef'
 
 class Tokenizer
 public
 
-    def initialize(text)
-        @text = text
+    def initialize(text, error_handler)
+        @text, @error_handler = text, error_handler
         @chunk_start = @chunk_end = 0
         #inside is true whenever the tokenizer is inside angle brackets
         @inside = false 
 
-        @current_line = 1;
-        @current_column = 0;
+        @current_location = FileRef.new('placeholder.ft', 1, 0)
     end
 
     def scan()
@@ -58,7 +58,7 @@ public
 private
 
     def make_token(type, content)
-        Token.new(type, content, @current_line, @current_column)
+        Token.new(type, content, @current_location)
     end
 
     def group_whitespace()
@@ -105,10 +105,10 @@ private
 
     def peek_and_advance()
         #update placement info for error handling
-        @current_column += 1
+        @current_location.col += 1
         if @text[@chunk_end] == "\n" then
-            @current_line += 1 
-            @current_column = 0
+            @current_location.line += 1 
+            @current_location.col = 0
         end
 
         #increment the chunk pointer and return the char

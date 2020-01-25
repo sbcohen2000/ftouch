@@ -6,12 +6,15 @@
 # This file defines the user interface for ftouch
 require 'pathname'
 require_relative 'Controllers/Parser'
+require_relative 'Controllers/Errors'
 
 CONFIG_PATH = './configs'
 
 def main()
     filename = ARGV[0]
     config_file = nil
+
+    error_handler = Errors.new()
     
     #get the configuration file
     if ARGV[1] == nil then #use default config
@@ -26,7 +29,7 @@ def main()
 
     config_file.open do |f|
         #create the configuration with the configuration file text
-        parser = Parser.new(f.read)
+        parser = Parser.new(f.read, error_handler)
         parser.body
     end
 

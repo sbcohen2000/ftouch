@@ -13,7 +13,8 @@ require_relative '../default_classes.rb'
 class SymbolTable
 public
 
-    def initialize()
+    def initialize(error_handler)
+        @error_handler = error_handler
         @parameters = DEFAULT_PARAMETERS
         @classes = DEFAULT_CLASSES
     end
@@ -28,7 +29,7 @@ public
     def get(parameter_name)
         param = find_parameter(parameter_name)
         return param if param != nil
-        puts "Parameter #{parameter_name} was not found"
+        @error_handler.put("Parameter #{parameter_name} was not found")
     end
 
     def apply_class(parameter_name, class_name, arguments)
@@ -37,7 +38,7 @@ public
         if c != nil then
             parameter.apply_class(c.raw_value, arguments)
         else
-            puts "Class #{class_name} was not found"
+            @error_handler.put("Class #{class_name} was not found")
         end
     end
 
@@ -45,13 +46,6 @@ private
 
     def add(parameter_name, value)
         @parameters << Parameter.new(parameter_name, value)
-    end
-
-    def add_defaults()
-        # @parameters << Parameter.new('filename', -> {
-        #     return 'yolo.txt'
-        # })
-        # 
     end
 
     def find_parameter(parameter_name)

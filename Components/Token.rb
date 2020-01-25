@@ -22,11 +22,11 @@ class Token
         :WHITESPACE,  # whitespace tokens can only be created inside < ... >
     ]
 
-    attr_reader :type, :content, :line, :column
+    attr_reader :type, :content, :line, :column, :location
 
-    def initialize(type, content, line, column)
+    def initialize(type, content, location)
         @type, @content = :ERROR, content
-        @line, @column = line, column
+        @location = location
 
         TOKEN_TYPES.each do |t|
             if t == type then
@@ -38,9 +38,5 @@ class Token
 
     def to_s
         @type.to_s
-    end
-
-    def location
-        "#{@line}:#{@column}"
     end
 end

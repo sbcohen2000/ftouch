@@ -10,20 +10,37 @@ require_relative 'Tokenizer'
 require_relative '../Models/SymbolTable'
 
 class Parser
-    def initialize(text)
-        @tokenizer = Tokenizer.new(text)
-        @symbol_table = SymbolTable.new()
+public
+
+    def initialize(text, error_handler)
+        @error_handler = error_handler
+        @tokenizer = Tokenizer.new(text, error_handler)
+        @symbol_table = SymbolTable.new(error_handler)
 
         @this_token = @tokenizer.scan()
         @next_token = @tokenizer.scan()
     end
+
+    def body()
+        until next_is_eof? do
+            if peek().type == :TEXT then
+                output_text 
+            elsif accept(:L_ANGLE) then
+                accept(:WHITESPACE) #accept possible whitespace
+                expression
+            else
+            end
+        end
+    end
+
+private
 
     def advance()
         @this_token = @next_token
         @next_token = @tokenizer.scan()
     end
 
-    def next_is_eof()
+    def next_is_eof?()
         return @next_token.type == :EOF
     end
 
@@ -33,12 +50,21 @@ class Parser
 
     def expect(token_type)
         return true if accept(token_type)
-        #todo: do a proper error
-        puts "Expected #{token_type} but got #{@this_token.type}"
+
+        @error_handler.put(Token.new(:ERROR, 
+            "Expected #{token_type} but got #{@this_token.type}", 
+            @this_token.location))
+
         return false
     end
 
     def accept(token_type)
+        
+        if peek().type == :ERROR then
+            @error_handler.put(peek())
+            advance()
+        end
+
         if peek().type == token_type then
             advance()
             return true
@@ -112,17 +138,5 @@ class Parser
             print @symbol_table.get(parameter_name).value 
         end
         expect(:R_ANGLE)
-    end
-
-    def body()
-        until next_is_eof do
-            if peek().type == :TEXT then
-                output_text 
-            elsif accept(:L_ANGLE) then
-                accept(:WHITESPACE) #accept possible whitespace
-                expression
-            else
-            end
-        end
     end
 end
