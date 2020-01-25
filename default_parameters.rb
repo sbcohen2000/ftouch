@@ -14,6 +14,35 @@
 
 DEFAULT_PARAMETERS = [
     Parameter.new('filename', -> {
-        return 'yolo.txt'
+        return ARGV[0]
+    }),
+    Parameter.new('logname', -> {
+        return ENV["LOGNAME"] ? ENV["LOGNAME"] : ""
+    }),
+    Parameter.new('date', -> {
+        t = Time.new
+        return "#{t.month}/#{t.day}/#{t.year}"
+    }),
+    Parameter.new('day', -> {
+        return Time.new.day
+    }),
+    Parameter.new('month', -> {
+        return Time.new.month
+    }),
+    Parameter.new('year', -> {
+        return Time.new.year
+    }),
+    Parameter.new('time', -> {
+        t = Time.new
+        return "#{t.hour}:#{t.min}"
+    }),
+    Parameter.new('hour', -> {
+        return Time.new.hour
+    }),
+    Parameter.new('min', -> {
+        return Time.new.min
+    }),
+    Parameter.new('sec', -> {
+        return Time.new.sec
     })
 ]

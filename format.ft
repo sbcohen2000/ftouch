@@ -23,5 +23,4 @@
 // hour     -> hh
 // min      -> mm
 // sec      -> ss
-// path     -> $ pwd
 // filename -> name of file

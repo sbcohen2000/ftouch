@@ -16,6 +16,9 @@ public
         @chunk_start = @chunk_end = 0
         #inside is true whenever the tokenizer is inside angle brackets
         @inside = false 
+        #should_ignore_newline is triggered when an insertion group does not
+        #return any text (i.e. conditionals and assignment statements).
+        @should_ignore_newline = false
 
         @current_location = FileRef.new('placeholder.ft', 1, 0)
     end
@@ -35,7 +38,9 @@ public
             when '<'
                 return make_token(:L_ANGLE, nil)
             when '>'
+                peek_and_advance() if peek() == "\n" and @should_ignore_newline
                 @inside = false
+                @should_ignore_newline = false
                 return make_token(:R_ANGLE, nil)
             when '('
                 return make_token(:OPEN_PAREN, nil)
@@ -44,13 +49,14 @@ public
             when ','
                 return make_token(:COMMA, nil)
             when '='
+                @should_ignore_newline = true
                 return make_token(:GETS, nil)
             when '"'
                 return group_string()
             end
+        else
+            return group_text()
         end
-
-        return group_text() if !@inside
 
         return make_token(:ERROR, "unrecognized symbol \'#{c}\'")
     end

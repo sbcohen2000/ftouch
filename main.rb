@@ -27,10 +27,13 @@ def main()
         abort(config_file.to_s + ' does not exist')
     end
 
-    config_file.open do |f|
+    config_file.open do |config|
         #create the configuration with the configuration file text
-        parser = Parser.new(f.read, error_handler)
-        parser.body
+        parser = Parser.new(config.read, error_handler)
+        output_text = parser.body
+        File.open(filename, 'w') do |outfile|
+            outfile.puts output_text
+        end
     end
 
 end

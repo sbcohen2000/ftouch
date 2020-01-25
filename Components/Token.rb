@@ -19,7 +19,7 @@ class Token
         :COMMA,
         :NUMBER,
         :STRING,
-        :WHITESPACE,  # whitespace tokens can only be created inside < ... >
+        :WHITESPACE   # whitespace tokens can only be created inside < ... >
     ]
 
     attr_reader :type, :content, :line, :column, :location

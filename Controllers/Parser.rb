@@ -19,10 +19,12 @@ public
 
         @this_token = @tokenizer.scan()
         @next_token = @tokenizer.scan()
+        
+        @output_text = String.new
     end
 
     def body()
-        until next_is_eof? do
+        until eof? do
             if peek().type == :TEXT then
                 output_text 
             elsif accept(:L_ANGLE) then
@@ -31,6 +33,7 @@ public
             else
             end
         end
+        @output_text
     end
 
 private
@@ -40,8 +43,8 @@ private
         @next_token = @tokenizer.scan()
     end
 
-    def next_is_eof?()
-        return @next_token.type == :EOF
+    def eof?()
+        return @this_token.type == :EOF
     end
 
     def peek()
@@ -59,7 +62,7 @@ private
     end
 
     def accept(token_type)
-        
+
         if peek().type == :ERROR then
             @error_handler.put(peek())
             advance()
@@ -73,7 +76,7 @@ private
     end
 
     def output_text()
-        print peek().content
+        @output_text += peek().content
         accept(:TEXT)
     end
 
@@ -135,7 +138,7 @@ private
         end
         #output the value of the parameter after all classes have been applied
         if expression_should_output then
-            print @symbol_table.get(parameter_name).value 
+            @output_text += @symbol_table.get(parameter_name).value 
         end
         expect(:R_ANGLE)
     end
