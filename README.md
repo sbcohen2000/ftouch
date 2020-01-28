@@ -16,7 +16,7 @@ The program will accept two input arguments. The first argument is required and 
 
 ## Configuration
 Below is an example of a configuration file and the resulting output file.
-`$ cat configs/default.ft`
+\n`$ cat configs/default.ft`
 ```
 <author = "Samuel Burns Cohen">
 // Created by <author>
@@ -26,7 +26,7 @@ Below is an example of a configuration file and the resulting output file.
 // 
 ```
 The above configuration file produces the following:
-`$ ./main.rb test.c && cat test.c`
+\n`$ ./main.rb test.c && cat test.c`
 ```
 // Created by Samuel Burns Cohen
 // Created on 1/25/2020
