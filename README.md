@@ -3,8 +3,15 @@
 ftouch is a program that creates new files with a template. The template is defined by a .tf file which determines the initial contents of the file. The .tf file can include parameters as well. These parameters can be set by the user, but a number of existing parameters are included with the application. Each parameter injects custom information into the text of the file such as the date, time, or username of the user who created the file. Each parameter can also be modified by classes. Classes filter the parameter’s value, for example, capitalizing every character or wrapping after a certain line number. 
 
 ## Getting Started
-
-ftouch is written in Ruby. To run the program, type:
+to install ftouch, navigate to its directory and run:
+```
+$ make install
+```
+to uninstall, run:
+```
+$ make uninstall
+```
+ftouch is written in Ruby. To run the program without installing, type:
 ```
 $ Ruby main.rb 
 ```
