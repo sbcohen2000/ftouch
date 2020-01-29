@@ -10,7 +10,7 @@ require 'optparse'
 require_relative 'Controllers/Parser'
 require_relative 'Controllers/Errors'
 
-CONFIG_PATH = './configs/'
+CONFIG_PATH = Dir.home + "/.ftouch_configs/"
 
 def main()
     @options = {}

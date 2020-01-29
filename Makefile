@@ -6,6 +6,9 @@ DIR := ${CURDIR}
 
 install: 
 	ln -s ${DIR}/ftouch.rb /usr/local/bin/ftouch
+	mkdir ~/.ftouch_configs
+	cp -r ./configs/* ~/.ftouch_configs
 
 uninstall:
 	rm /usr/local/bin/ftouch
+	rm -r ~/.ftouch_configs
