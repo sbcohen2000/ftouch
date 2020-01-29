@@ -15,5 +15,8 @@
 DEFAULT_CLASSES = [
     Parameter.new('capitalize',  ->(param, arguments) {
         return param.value.upcase
+    }),
+    Parameter.new('system',  ->(param, arguments) {
+        return `#{arguments[0]}`
     })
 ]

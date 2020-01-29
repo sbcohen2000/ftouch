@@ -45,7 +45,7 @@ public
             when '('
                 return make_token(:OPEN_PAREN, nil)
             when ')'
-                return close_paren(:CLOSE_PAREN, nil)
+                return make_token(:CLOSE_PAREN, nil)
             when ','
                 return make_token(:COMMA, nil)
             when '='

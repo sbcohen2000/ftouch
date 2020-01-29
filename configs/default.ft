@@ -3,3 +3,5 @@
 //
 // <filename>
 // 
+The contents of home directory:
+<null system("ls -l ~")>

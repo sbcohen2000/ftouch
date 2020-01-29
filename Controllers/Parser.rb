@@ -86,12 +86,15 @@ private
         loop do
             accept(:WHITESPACE)
             class_name = peek().content
+            #expect class name
             expect(:IDENT)
-
+            
+            accept(:WHITESPACE)
             class_arguments = Array.new
             
             #accept possible input argument
             if peek().type == :OPEN_PAREN then
+                accept(:OPEN_PAREN)
                 accept(:WHITESPACE)
                 class_arguments << constant
                 accept(:WHITESPACE)

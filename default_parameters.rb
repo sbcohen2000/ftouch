@@ -44,5 +44,8 @@ DEFAULT_PARAMETERS = [
     }),
     Parameter.new('sec', -> {
         return Time.new.sec
+    }),
+    Parameter.new('null', -> {
+        return ""
     })
 ]
